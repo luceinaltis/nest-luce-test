@@ -6,8 +6,9 @@ import {
     Patch,
     Post,
     Body,
-    Query,
 } from '@nestjs/common';
+import { CreateMovieDto } from './dto/create-movie.dto';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 import { Movie } from './entities/movite.entitiy';
 import { MoviesService } from './movies.service';
 
@@ -20,26 +21,27 @@ export class MoviesController {
         return this.moviesService.getAll();
     }
 
+    @Get(':id')
+    getOne(@Param('id') movieId: number) {
+        console.log(typeof movieId);
+        return this.moviesService.getOne(movieId);
+    }
+
     @Post()
-    getOne(@Body() movieData: string) {
+    createMovie(@Body() movieData: CreateMovieDto) {
         return this.moviesService.create(movieData);
     }
 
     @Delete(':id')
-    deleteMovie(@Param('id') movieId: string) {
+    deleteMovie(@Param('id') movieId: number) {
         return this.moviesService.deleteOne(movieId);
     }
 
     @Patch(':id')
-    patchMovie(@Param('id') movieId: string, @Body() updateData) {
-        return {
-            id: movieId,
-            ...updateData,
-        };
-    }
-
-    @Get('search')
-    search(@Query('year') searchingYear: string) {
-        return `searching ${searchingYear}...`;
+    updateMovie(
+        @Param('id') movieId: number,
+        @Body() updateData: UpdateMovieDto,
+    ) {
+        return this.moviesService.update(movieId, updateData);
     }
 }
