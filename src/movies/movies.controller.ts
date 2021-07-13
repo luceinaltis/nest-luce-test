@@ -6,6 +6,8 @@ import {
     Patch,
     Post,
     Body,
+    HttpException,
+    HttpStatus,
 } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
